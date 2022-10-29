@@ -1,5 +1,9 @@
 # SVG avatar generator
 
+<p align="center">
+![Preview](.github/img/preview.png)
+</p>
+
 ![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=RobiNN1.SVG-Avatar)
 
 ## Installation
