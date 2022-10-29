@@ -45,8 +45,14 @@ $avatar->setColors([
 ]);
 echo $avatar->name('RobiNN');
 
-// If needed, can set text color, default is '#fff'
+// If needed, can set text color. Default is '#fff'
 echo $avatar->name('RobiNN')->setColors([...], '#000');
+```
+
+CSS class
+
+```php
+echo $avatar->name('RobiNN')->class('avatar');
 ```
 
 ## Requirements

@@ -32,6 +32,8 @@ class SVGAvatar {
 
     private int $radius = 0;
 
+    private string $class = '';
+
     /**
      * Set name.
      *
@@ -105,6 +107,17 @@ class SVGAvatar {
     }
 
     /**
+     * Set css class.
+     *
+     * @return $this
+     */
+    public function class(string $class): self {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    /**
      * Set colors.
      *
      * @param array<int, string> $bg
@@ -130,7 +143,13 @@ class SVGAvatar {
      */
     protected function svg(string $text, string $background, string $text_color = '#fff'): string {
         $size = $this->size;
-        $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'.$size.'" height="'.$size.'" viewBox="0 0 '.$size.' '.$size.'">';
+
+        $class = '';
+        if ($this->class !== '') {
+            $class = ' class="'.$this->class.'"';
+        }
+
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="'.$size.'" height="'.$size.'" viewBox="0 0 '.$size.' '.$size.'"'.$class.'>';
 
         $half = $size / 2;
 

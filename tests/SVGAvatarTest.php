@@ -126,4 +126,13 @@ class SVGAvatarTest extends TestCase {
 
         $this->assertSame($svg, $this->avatar->name('RobiNN')->size(64)->__toString());
     }
+
+    public function testAvatarWithClass(): void {
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" class="avatar">'.
+            '<rect x="0" y="0" rx="0" width="48" height="48" fill="#3832a8"/>'.
+            '<text font-size="24" fill="#fff" x="50%" y="50%" dy=".1em" '.
+            'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">R</text></svg>';
+
+        $this->assertSame($svg, $this->avatar->name('RobiNN')->class('avatar')->__toString());
+    }
 }
