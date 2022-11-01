@@ -2,7 +2,6 @@
 
 ![Screenshot](.github/img/screenshot.png)
 
-
 ![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=RobiNN1.SVG-Avatar)
 
 ## Installation
@@ -20,6 +19,9 @@ $avatar = new SVGAvatar();
 
 echo $avatar->name('RobiNN');
 ```
+
+> If you do not set name, the user icon will be displayed.
+> This can be useful for guests.
 
 ## Methods
 
