@@ -67,15 +67,47 @@ class SVGAvatarTest extends TestCase {
     /**
      * @throws ReflectionException
      */
+    public function testAvatarColorBrightness(): void {
+        $this->assertSame('#5a5aa8', self::callMethod($this->avatar->brightness(90), 'stringToColor', 'RobiNN'));
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testAvatarColorUniqueness(): void {
+        $this->assertSame('#3883d0', self::callMethod($this->avatar->uniqueness(7), 'stringToColor', 'RobiNN'));
+    }
+
+    /**
+     * @throws ReflectionException
+     */
+    public function testGetRgbFromHex(): void {
+        $this->assertEqualsCanonicalizing(['ff', 'ff', 'ff'], self::callMethod($this->avatar, 'getRgbFromHex', 'fff'));
+
+        $this->assertEqualsCanonicalizing(['38', '32', 'a8'], self::callMethod($this->avatar, 'getRgbFromHex', '3832a8'));
+    }
+
+    /**
+     * @throws ReflectionException
+     */
     public function testGetReadableColor(): void {
         $this->assertSame('#fff', self::callMethod($this->avatar, 'getReadableColor', '#3832a8'));
         $this->assertSame('#fff', self::callMethod($this->avatar, 'getReadableColor', '#000000'));
         $this->assertSame('#000', self::callMethod($this->avatar, 'getReadableColor', '#ffffff'));
     }
 
+    /**
+     * @throws ReflectionException
+     */
+    public function testInitials(): void {
+        $this->assertSame('R', self::callMethod($this->avatar, 'initials', 'RobiNN'));
+        $this->assertSame('RK', self::callMethod($this->avatar, 'initials', 'Róbert Kelčák'));
+        $this->assertSame('RK', self::callMethod($this->avatar, 'initials', 'Róbert RobiNN Kelčák'));
+    }
+
     public function testSquareAvatar(): void {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">'.
-            '<rect x="0" y="0" rx="0" width="48" height="48" fill="#3832a8"/>'.
+            '<rect width="48" height="48" fill="#3832a8"/>'.
             '<text font-size="24" fill="#fff" x="50%" y="50%" dy=".1em" '.
             'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">R</text></svg>';
 
@@ -93,7 +125,7 @@ class SVGAvatarTest extends TestCase {
 
     public function testSqareAvatarWithDefinedColors(): void {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">'.
-            '<rect x="0" y="0" rx="0" width="48" height="48" fill="#f44336"/>'.
+            '<rect width="48" height="48" fill="#f44336"/>'.
             '<text font-size="24" fill="#fff" x="50%" y="50%" dy=".1em" '.
             'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">R</text></svg>';
 
@@ -111,7 +143,7 @@ class SVGAvatarTest extends TestCase {
 
     public function testAvatarWithRadius(): void {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">'.
-            '<rect x="0" y="0" rx="10" width="48" height="48" fill="#3832a8"/>'.
+            '<rect rx="10" width="48" height="48" fill="#3832a8"/>'.
             '<text font-size="24" fill="#fff" x="50%" y="50%" dy=".1em" '.
             'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">R</text></svg>';
 
@@ -120,7 +152,7 @@ class SVGAvatarTest extends TestCase {
 
     public function testAvatarWithCustomSize(): void {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">'.
-            '<rect x="0" y="0" rx="0" width="64" height="64" fill="#3832a8"/>'.
+            '<rect width="64" height="64" fill="#3832a8"/>'.
             '<text font-size="32" fill="#fff" x="50%" y="50%" dy=".1em" '.
             'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">R</text></svg>';
 
@@ -129,10 +161,23 @@ class SVGAvatarTest extends TestCase {
 
     public function testAvatarWithClass(): void {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" class="avatar">'.
-            '<rect x="0" y="0" rx="0" width="48" height="48" fill="#3832a8"/>'.
+            '<rect width="48" height="48" fill="#3832a8"/>'.
             '<text font-size="24" fill="#fff" x="50%" y="50%" dy=".1em" '.
             'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">R</text></svg>';
 
         $this->assertSame($svg, $this->avatar->name('RobiNN')->class('avatar')->__toString());
+    }
+
+    public function testAvatarWithoutName(): void {
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">'.
+            '<rect width="48" height="48" fill="#d99aed"/>'.
+            '<foreignObject x="12" y="12" width="24" height="24">'.
+            '<svg width="100%" height="100%" viewBox="0 0 48 48">'.
+            '<path fill="#000" d="M44.9 48h-5.8c0-8.4-6.8-15.1-15.1-15.1S8.9 39.8 8.9 48H3.1c0-8 4.4-14.9 '.
+            '11-18.5-4-3-6.6-7.8-6.6-13.1C7.5 7.4 15 0 24 0s16.5 7.4 16.5 16.5c0 5.4-2.6 10-6.6 13.1 6.6 3.5 '.
+            '11 10.4 11 18.4zM23.8 5.6c-5.8 0-10.6 4.8-10.6 10.6S18 26.9 23.8 26.9s10.6-4.8 10.6-10.6S29.6 5.6 23.8 5.6z"/>'.
+            '</svg></foreignObject></svg>';
+
+        $this->assertSame($svg, $this->avatar->__toString());
     }
 }

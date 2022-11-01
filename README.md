@@ -21,46 +21,37 @@ $avatar = new SVGAvatar();
 echo $avatar->name('RobiNN');
 ```
 
-Custom size, default is 48px
+## Methods
 
 ```php
-echo $avatar->name('RobiNN')->size(64);
-```
+// Custom size, default is 48px.
+$avatar->size(64);
 
-Display as circle
+// Display as a circle.
+$avatar->circle();
 
-```php
-echo $avatar->name('RobiNN')->circle();
-```
+// Border radius.
+$avatar->radius(10);
 
-Border radius
+// CSS class.
+$avatar->class('avatar');
 
-```php
-echo $avatar->name('RobiNN')->radius(10);
-```
+// Custom colors. By default, background colors are generated from name.
+$avatar->setColors(['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3',]);
+// You can set the text color if needed. Default is 'auto' which sets '#fff' or '#000'.
+$avatar->setColors([...], '#000');
 
-By default, backgroud colors are generated from name.
-However, it is possible to set custom colors
+// Color brightness, between 0-100, 50 is default. Doesn't work with setColors().
+$avatar->brightness(80);
 
-```php
-$avatar->setColors([
-    '#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3',
-]);
-echo $avatar->name('RobiNN');
-
-// If needed, can set text color. Default is '#fff'
-echo $avatar->name('RobiNN')->setColors([...], '#000');
-```
-
-CSS class
-
-```php
-echo $avatar->name('RobiNN')->class('avatar');
+// Color uniqueness, between 1-10, 3 is default. Doesn't work with setColors().
+$avatar->uniqueness(7);
 ```
 
 ## Requirements
 
 - PHP >= 8.1
+- mbstring extension
 
 ## Testing
 

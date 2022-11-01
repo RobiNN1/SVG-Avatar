@@ -20,14 +20,12 @@
     "source": "https://github.com/RobiNN1/SVG-Avatar"
   },
   "require": {
-    "php": ">=8.1"
+    "php": ">=8.1",
+    "ext-mbstring": "*"
   },
   "require-dev": {
     "phpstan/phpstan": "^1.8",
     "phpunit/phpunit": "^9.5"
-  },
-  "suggest": {
-    "ext-mbstring": "Recommended for initials."
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
