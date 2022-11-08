@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace RobiNN\SVGAvatar;
 
 class SVGAvatar {
-    public const VERSION = '1.1.0';
+    public const VERSION = '1.1.1';
 
-    private string $name = '';
+    private string $name = ' ';
 
     /**
      * @var array<int, string>

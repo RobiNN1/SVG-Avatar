@@ -170,7 +170,7 @@ class SVGAvatarTest extends TestCase {
 
     public function testAvatarWithoutName(): void {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">'.
-            '<rect width="48" height="48" fill="#d99aed"/>'.
+            '<rect width="48" height="48" fill="#b88c32"/>'.
             '<foreignObject x="12" y="12" width="24" height="24">'.
             '<svg width="100%" height="100%" viewBox="0 0 48 48">'.
             '<path fill="#000" d="M44.9 48h-5.8c0-8.4-6.8-15.1-15.1-15.1S8.9 39.8 8.9 48H3.1c0-8 4.4-14.9 '.
