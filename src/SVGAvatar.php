@@ -36,6 +36,8 @@ class SVGAvatar {
 
     private int $uniqueness = 3;
 
+    private bool $base64 = false;
+
     /**
      * Set name.
      *
@@ -72,11 +74,11 @@ class SVGAvatar {
     }
 
     /**
-     * Render avatar.
+     * Generate avatar.
      *
      * @return string
      */
-    public function __toString(): string {
+    private function generate(): string {
         if (count($this->backgrounds) > 0) {
             $background = $this->getRandomColor($this->name, $this->backgrounds);
             $text_color = $this->text_color === 'auto' ? $this->getReadableColor($background) : $this->text_color;
@@ -156,6 +158,17 @@ class SVGAvatar {
     }
 
     /**
+     * Output as base64.
+     *
+     * @return $this
+     */
+    public function toBase64(): self {
+        $this->base64 = true;
+
+        return $this;
+    }
+
+    /**
      * Generate SVG.
      *
      * @param string $text
@@ -164,7 +177,7 @@ class SVGAvatar {
      *
      * @return string
      */
-    protected function svg(string $text, string $background, string $text_color): string {
+    private function svg(string $text, string $background, string $text_color): string {
         $size = $this->size;
         $class = $this->class !== '' ? ' class="'.$this->class.'"' : '';
 
@@ -198,6 +211,17 @@ class SVGAvatar {
     }
 
     /**
+     * Svg to base64.
+     *
+     * @param string $svg
+     *
+     * @return string
+     */
+    private function svgToBase64(string $svg): string {
+        return 'data:image/svg+xml;base64,'.base64_encode($svg);
+    }
+
+    /**
      * Get random color from a defined array.
      *
      * @param string             $string
@@ -205,7 +229,7 @@ class SVGAvatar {
      *
      * @return string
      */
-    protected function getRandomColor(string $string, array $colors): string {
+    private function getRandomColor(string $string, array $colors): string {
         $number = ord($string[0]);
 
         $i = 1;
@@ -250,7 +274,7 @@ class SVGAvatar {
      *
      * @return string
      */
-    protected function stringToColor(string $string): string {
+    private function stringToColor(string $string): string {
         $hash = sha1($string);
         $colors = [];
 
@@ -313,5 +337,15 @@ class SVGAvatar {
         }
 
         return [$red, $green, $blue];
+    }
+
+    public function __toString(): string {
+        $svg = $this->generate();
+
+        if ($this->base64) {
+            return $this->svgToBase64($svg);
+        }
+
+        return $svg;
     }
 }

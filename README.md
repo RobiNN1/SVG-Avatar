@@ -47,6 +47,9 @@ $avatar->brightness(80);
 
 // Color uniqueness, between 1-10, 3 is default. Doesn't work with setColors().
 $avatar->uniqueness(7);
+
+// Output as base64
+$avatar->toBase64();
 ```
 
 ## Requirements

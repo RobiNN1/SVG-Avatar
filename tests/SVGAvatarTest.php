@@ -180,4 +180,13 @@ class SVGAvatarTest extends TestCase {
 
         $this->assertSame($svg, $this->avatar->__toString());
     }
+
+    public function testBase64(): void {
+        $svg = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCI'.
+            'gdmlld0JveD0iMCAwIDQ4IDQ4Ij48cmVjdCB3aWR0aD0iNDgiIGhlaWdodD0iNDgiIGZpbGw9IiMzODMyYTgiLz48dGV4dCBmb250LXNpemU9IjI0'.
+            'IiBmaWxsPSIjZmZmIiB4PSI1MCUiIHk9IjUwJSIgZHk9Ii4xZW0iIHN0eWxlPSJsaW5lLWhlaWdodDoxIiBhbGlnbm1lbnQtYmFzZWxpbmU9Im1pZG'.
+            'RsZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9ImNlbnRyYWwiPlI8L3RleHQ+PC9zdmc+';
+
+        $this->assertSame($svg, $this->avatar->name('RobiNN')->toBase64()->__toString());
+    }
 }
