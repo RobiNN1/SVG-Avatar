@@ -12,8 +12,10 @@ declare(strict_types=1);
 
 namespace RobiNN\SVGAvatar;
 
-class SVGAvatar {
-    public const VERSION = '1.1.1';
+use Stringable;
+
+class SVGAvatar implements Stringable {
+    final public const VERSION = '1.1.1';
 
     private string $name = ' ';
 
@@ -40,10 +42,6 @@ class SVGAvatar {
 
     /**
      * Set name.
-     *
-     * @param string $name
-     *
-     * @return $this
      */
     public function name(string $name): self {
         $this->name = $name;
@@ -53,10 +51,6 @@ class SVGAvatar {
 
     /**
      * Create initials.
-     *
-     * @param string $name
-     *
-     * @return string
      */
     private function initials(string $name): string {
         $words = explode(' ', $name);
@@ -75,8 +69,6 @@ class SVGAvatar {
 
     /**
      * Generate avatar.
-     *
-     * @return string
      */
     private function generate(): string {
         if (count($this->backgrounds) > 0) {
@@ -94,10 +86,6 @@ class SVGAvatar {
 
     /**
      * Set avatar size.
-     *
-     * @param int $pixels
-     *
-     * @return $this
      */
     public function size(int $pixels): self {
         $this->size = $pixels;
@@ -107,8 +95,6 @@ class SVGAvatar {
 
     /**
      * Display as a circle.
-     *
-     * @return $this
      */
     public function circle(): self {
         $this->circle = true;
@@ -118,10 +104,6 @@ class SVGAvatar {
 
     /**
      * Set border radius.
-     *
-     * @param int $size
-     *
-     * @return $this
      */
     public function radius(int $size): self {
         $this->radius = $size;
@@ -131,10 +113,6 @@ class SVGAvatar {
 
     /**
      * Set css class.
-     *
-     * @param string $class
-     *
-     * @return $this
      */
     public function class(string $class): self {
         $this->class = $class;
@@ -146,9 +124,6 @@ class SVGAvatar {
      * Set colors.
      *
      * @param array<int, string> $backgrounds
-     * @param string             $text_color
-     *
-     * @return $this
      */
     public function setColors(array $backgrounds, string $text_color = 'auto'): self {
         $this->backgrounds = $backgrounds;
@@ -159,8 +134,6 @@ class SVGAvatar {
 
     /**
      * Output as base64.
-     *
-     * @return $this
      */
     public function toBase64(): self {
         $this->base64 = true;
@@ -170,12 +143,6 @@ class SVGAvatar {
 
     /**
      * Generate SVG.
-     *
-     * @param string $text
-     * @param string $background
-     * @param string $text_color
-     *
-     * @return string
      */
     private function svg(string $text, string $background, string $text_color): string {
         $size = $this->size;
@@ -205,17 +172,11 @@ class SVGAvatar {
                 '</svg></foreignObject>';
         }
 
-        $svg .= '</svg>';
-
-        return $svg;
+        return $svg.'</svg>';
     }
 
     /**
      * Svg to base64.
-     *
-     * @param string $svg
-     *
-     * @return string
      */
     private function svgToBase64(string $svg): string {
         return 'data:image/svg+xml;base64,'.base64_encode($svg);
@@ -224,10 +185,7 @@ class SVGAvatar {
     /**
      * Get random color from a defined array.
      *
-     * @param string             $string
      * @param array<int, string> $colors
-     *
-     * @return string
      */
     private function getRandomColor(string $string, array $colors): string {
         $number = ord($string[0]);
@@ -245,8 +203,6 @@ class SVGAvatar {
      * Set color brightness.
      *
      * @param int $brightness 0-100
-     *
-     * @return $this
      */
     public function brightness(int $brightness): self {
         $this->brightness = $brightness;
@@ -258,8 +214,6 @@ class SVGAvatar {
      * Set color uniqueness.
      *
      * @param int $uniqueness 1-10
-     *
-     * @return $this
      */
     public function uniqueness(int $uniqueness): self {
         $this->uniqueness = $uniqueness;
@@ -269,10 +223,6 @@ class SVGAvatar {
 
     /**
      * Generate a unique color based on string.
-     *
-     * @param string $string
-     *
-     * @return string
      */
     private function stringToColor(string $string): string {
         $hash = sha1($string);
@@ -296,10 +246,6 @@ class SVGAvatar {
 
     /**
      * Get readable text color (black/white) based on background.
-     *
-     * @param string $hex
-     *
-     * @return string
      */
     private function getReadableColor(string $hex): string {
         $hex = ltrim($hex, '#');
@@ -317,8 +263,6 @@ class SVGAvatar {
 
     /**
      * Get RGB from HEX.
-     *
-     * @param string $hex
      *
      * @return string[]
      */
