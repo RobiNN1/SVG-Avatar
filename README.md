@@ -1,4 +1,7 @@
 <h1 align="center">SVG avatar generator</h1>
+
+<p align="center">Create a unique avatar for each user based on their name.</p>
+
 <p align="center"><img src=".github/img/preview.svg" height="48" alt="Preview"></p>
 
 ![Visitor Badge](https://visitor-badge.laobi.icu/badge?page_id=RobiNN1.SVG-Avatar)

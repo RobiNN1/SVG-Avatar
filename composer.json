@@ -1,6 +1,6 @@
 {
   "name": "robinn/svg-avatar",
-  "description": "SVG avatar generator.",
+  "description": "Create a unique avatar for each user based on their name.",
   "license": "MIT",
   "type": "library",
   "keywords": [
