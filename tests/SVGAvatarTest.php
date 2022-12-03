@@ -29,25 +29,17 @@ class SVGAvatarTest extends TestCase {
         '#701a75', '#475569', '#ce93d8', '#b39ddb', '#9fa8da', '#00bcd4', '#ffab91', '#10b981',
     ];
 
-    protected function setUp(): void {
-        $this->avatar = new SVGAvatar();
-    }
-
     /**
      * Call private method.
      *
-     * @param object $object
-     * @param string $name
-     * @param mixed  ...$args
-     *
-     * @return mixed
      * @throws ReflectionException
      */
-    protected static function callMethod(object $object, string $name, ...$args): mixed {
-        $method = new ReflectionMethod($object, $name);
-        $method->setAccessible(true);
+    protected static function callMethod(object $object, string $name, mixed ...$args): mixed {
+        return (new ReflectionMethod($object, $name))->invokeArgs($object, $args);
+    }
 
-        return $method->invokeArgs($object, $args);
+    protected function setUp(): void {
+        $this->avatar = new SVGAvatar();
     }
 
     /**
