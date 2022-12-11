@@ -50,41 +50,6 @@ class SVGAvatar implements Stringable {
     }
 
     /**
-     * Create initials.
-     */
-    private function initials(string $name): string {
-        $words = explode(' ', $name);
-
-        if (count($words) >= 2) {
-            $first = mb_substr($words[0], 0, 1, 'UTF-8');
-            $last = mb_substr(end($words), 0, 1, 'UTF-8');
-
-            return mb_strtoupper($first.$last, 'UTF-8');
-        }
-
-        $first_char = mb_substr($name, 0, 1, 'UTF-8');
-
-        return mb_strtoupper($first_char, 'UTF-8');
-    }
-
-    /**
-     * Generate avatar.
-     */
-    private function generate(): string {
-        if (count($this->backgrounds) > 0) {
-            $background = $this->getRandomColor($this->name, $this->backgrounds);
-            $text_color = $this->text_color === 'auto' ? $this->getReadableColor($background) : $this->text_color;
-        } else {
-            $background = $this->stringToColor($this->name);
-            $text_color = $this->getReadableColor($background);
-        }
-
-        $name = $this->name !== '' ? $this->initials($this->name) : '';
-
-        return $this->svg($name, $background, $text_color);
-    }
-
-    /**
      * Set avatar size.
      */
     public function size(int $pixels): self {
@@ -139,6 +104,63 @@ class SVGAvatar implements Stringable {
         $this->base64 = true;
 
         return $this;
+    }
+
+    /**
+     * Set color brightness.
+     *
+     * @param int $brightness 0-100
+     */
+    public function brightness(int $brightness): self {
+        $this->brightness = $brightness;
+
+        return $this;
+    }
+
+    /**
+     * Set color uniqueness.
+     *
+     * @param int $uniqueness 1-10
+     */
+    public function uniqueness(int $uniqueness): self {
+        $this->uniqueness = $uniqueness;
+
+        return $this;
+    }
+
+    /**
+     * Create initials.
+     */
+    private function initials(string $name): string {
+        $words = explode(' ', $name);
+
+        if (count($words) >= 2) {
+            $first = mb_substr($words[0], 0, 1, 'UTF-8');
+            $last = mb_substr(end($words), 0, 1, 'UTF-8');
+
+            return mb_strtoupper($first.$last, 'UTF-8');
+        }
+
+        $first_char = mb_substr($name, 0, 1, 'UTF-8');
+
+        return mb_strtoupper($first_char, 'UTF-8');
+    }
+
+    /**
+     * Generate avatar.
+     */
+    private function generate(): string {
+        if (count($this->backgrounds) > 0) {
+            $background = $this->getRandomColor($this->name, $this->backgrounds);
+            $text_color = $this->text_color === 'auto' ? $this->getReadableColor($background) : $this->text_color;
+        } else {
+            $background = $this->stringToColor($this->name);
+            $text_color = $this->getReadableColor($background);
+        }
+
+        $name = $this->name !== '' ? $this->initials($this->name) : '';
+
+        return $this->svg($name, $background, $text_color);
     }
 
     /**
@@ -200,28 +222,6 @@ class SVGAvatar implements Stringable {
     }
 
     /**
-     * Set color brightness.
-     *
-     * @param int $brightness 0-100
-     */
-    public function brightness(int $brightness): self {
-        $this->brightness = $brightness;
-
-        return $this;
-    }
-
-    /**
-     * Set color uniqueness.
-     *
-     * @param int $uniqueness 1-10
-     */
-    public function uniqueness(int $uniqueness): self {
-        $this->uniqueness = $uniqueness;
-
-        return $this;
-    }
-
-    /**
      * Generate a unique color based on string.
      */
     private function stringToColor(string $string): string {
@@ -230,10 +230,10 @@ class SVGAvatar implements Stringable {
 
         // Convert hash into 3 decimal values between 0 and 255
         for ($i = 0; $i < 3; $i++) {
-            $rgb_channel = round((
-                    hexdec(substr($hash, $this->uniqueness * $i, $this->uniqueness)) /
-                    hexdec(str_pad('', $this->uniqueness, 'F'))
-                ) * 255);
+            $rgb_channel = round(
+                hexdec(substr($hash, $this->uniqueness * $i, $this->uniqueness)) /
+                hexdec(str_pad('', $this->uniqueness, 'F')) * 255
+            );
 
             $rgb_channel = (int) max([$rgb_channel, $this->brightness]);
 
@@ -256,7 +256,7 @@ class SVGAvatar implements Stringable {
         $g = hexdec($green) * 587;
         $b = hexdec($blue) * 114;
 
-        $is_light = (($r + $g + $b) / 1000) > 130;
+        $is_light = ($r + $g + $b) / 1000 > 130;
 
         return '#'.($is_light ? '000' : 'fff');
     }
@@ -264,7 +264,7 @@ class SVGAvatar implements Stringable {
     /**
      * Get RGB from HEX.
      *
-     * @return string[]
+     * @return array<string>
      */
     private function getRgbFromHex(string $hex): array {
         switch (strlen($hex)) {
