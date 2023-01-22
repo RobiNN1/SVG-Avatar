@@ -15,7 +15,7 @@ namespace RobiNN\SVGAvatar;
 use Stringable;
 
 class SVGAvatar implements Stringable {
-    final public const VERSION = '1.1.1';
+    final public const VERSION = '1.2.0';
 
     private string $name = ' ';
 
@@ -151,11 +151,11 @@ class SVGAvatar implements Stringable {
      */
     private function generate(): string {
         if (count($this->backgrounds) > 0) {
-            $background = $this->getRandomColor($this->name, $this->backgrounds);
-            $text_color = $this->text_color === 'auto' ? $this->getReadableColor($background) : $this->text_color;
+            $background = Colors::getRandomColor($this->name, $this->backgrounds);
+            $text_color = $this->text_color === 'auto' ? Colors::getReadableColor($background) : $this->text_color;
         } else {
-            $background = $this->stringToColor($this->name);
-            $text_color = $this->getReadableColor($background);
+            $background = Colors::stringToColor($this->name, $this->uniqueness, $this->brightness);
+            $text_color = Colors::getReadableColor($background);
         }
 
         $name = $this->name !== '' ? $this->initials($this->name) : '';
@@ -202,85 +202,6 @@ class SVGAvatar implements Stringable {
      */
     private function svgToBase64(string $svg): string {
         return 'data:image/svg+xml;base64,'.base64_encode($svg);
-    }
-
-    /**
-     * Get random color from a defined array.
-     *
-     * @param array<int, string> $colors
-     */
-    private function getRandomColor(string $string, array $colors): string {
-        $number = ord($string[0]);
-
-        $i = 1;
-        while ($i < strlen($string)) {
-            $number += ord($string[$i]);
-            $i++;
-        }
-
-        return $colors[$number % count($colors)];
-    }
-
-    /**
-     * Generate a unique color based on string.
-     */
-    private function stringToColor(string $string): string {
-        $hash = sha1($string);
-        $colors = [];
-
-        // Convert hash into 3 decimal values between 0 and 255
-        for ($i = 0; $i < 3; $i++) {
-            $rgb_channel = round(
-                hexdec(substr($hash, $this->uniqueness * $i, $this->uniqueness)) /
-                hexdec(str_pad('', $this->uniqueness, 'F')) * 255
-            );
-
-            $rgb_channel = (int) max([$rgb_channel, $this->brightness]);
-
-            // Convert RGB channel to HEX channel
-            $colors[] = str_pad(dechex($rgb_channel), 2, '0', STR_PAD_LEFT);
-        }
-
-        return '#'.implode('', $colors);
-    }
-
-    /**
-     * Get readable text color (black/white) based on background.
-     */
-    private function getReadableColor(string $hex): string {
-        $hex = ltrim($hex, '#');
-
-        [$red, $green, $blue] = $this->getRgbFromHex($hex);
-
-        $r = hexdec($red) * 299;
-        $g = hexdec($green) * 587;
-        $b = hexdec($blue) * 114;
-
-        $is_light = ($r + $g + $b) / 1000 > 130;
-
-        return '#'.($is_light ? '000' : 'fff');
-    }
-
-    /**
-     * Get RGB from HEX.
-     *
-     * @return array<string>
-     */
-    private function getRgbFromHex(string $hex): array {
-        switch (strlen($hex)) {
-            case 3:
-                [$red, $green, $blue] = str_split($hex);
-
-                $red .= $red;
-                $green .= $green;
-                $blue .= $blue;
-                break;
-            case 6:
-            default:
-                [$red, $green, $blue] = str_split($hex, 2);
-        }
-
-        return [$red, $green, $blue];
     }
 
     public function __toString(): string {

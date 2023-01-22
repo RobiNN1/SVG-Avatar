@@ -13,8 +13,6 @@ declare(strict_types=1);
 namespace Tests;
 
 use PHPUnit\Framework\TestCase;
-use ReflectionException;
-use ReflectionMethod;
 use RobiNN\SVGAvatar\SVGAvatar;
 
 class SVGAvatarTest extends TestCase {
@@ -29,72 +27,8 @@ class SVGAvatarTest extends TestCase {
         '#701a75', '#475569', '#ce93d8', '#b39ddb', '#9fa8da', '#00bcd4', '#ffab91', '#10b981',
     ];
 
-    /**
-     * Call private method.
-     *
-     * @throws ReflectionException
-     */
-    protected static function callMethod(object $object, string $name, mixed ...$args): mixed {
-        return (new ReflectionMethod($object, $name))->invokeArgs($object, $args);
-    }
-
     protected function setUp(): void {
         $this->avatar = new SVGAvatar();
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function testGetRandomColor(): void {
-        $this->assertSame('#f44336', self::callMethod($this->avatar, 'getRandomColor', 'RobiNN', $this->colors));
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function testStringToColor(): void {
-        $this->assertSame('#3832a8', self::callMethod($this->avatar, 'stringToColor', 'RobiNN'));
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function testAvatarColorBrightness(): void {
-        $this->assertSame('#5a5aa8', self::callMethod($this->avatar->brightness(90), 'stringToColor', 'RobiNN'));
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function testAvatarColorUniqueness(): void {
-        $this->assertSame('#3883d0', self::callMethod($this->avatar->uniqueness(7), 'stringToColor', 'RobiNN'));
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function testGetRgbFromHex(): void {
-        $this->assertEqualsCanonicalizing(['ff', 'ff', 'ff'], self::callMethod($this->avatar, 'getRgbFromHex', 'fff'));
-
-        $this->assertEqualsCanonicalizing(['38', '32', 'a8'], self::callMethod($this->avatar, 'getRgbFromHex', '3832a8'));
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function testGetReadableColor(): void {
-        $this->assertSame('#fff', self::callMethod($this->avatar, 'getReadableColor', '#3832a8'));
-        $this->assertSame('#fff', self::callMethod($this->avatar, 'getReadableColor', '#000000'));
-        $this->assertSame('#000', self::callMethod($this->avatar, 'getReadableColor', '#ffffff'));
-    }
-
-    /**
-     * @throws ReflectionException
-     */
-    public function testInitials(): void {
-        $this->assertSame('R', self::callMethod($this->avatar, 'initials', 'RobiNN'));
-        $this->assertSame('RK', self::callMethod($this->avatar, 'initials', 'Róbert Kelčák'));
-        $this->assertSame('RK', self::callMethod($this->avatar, 'initials', 'Róbert RobiNN Kelčák'));
     }
 
     public function testSquareAvatar(): void {
@@ -108,20 +42,20 @@ class SVGAvatarTest extends TestCase {
 
     public function testCircleAvatar(): void {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">'.
-            '<circle cx="24" cy="24" r="24" fill="#3832a8"/>'.
+            '<circle cx="24" cy="24" r="24" fill="#e049a3"/>'.
             '<text font-size="24" fill="#fff" x="50%" y="50%" dy=".1em" '.
-            'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">R</text></svg>';
+            'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">RK</text></svg>';
 
-        $this->assertSame($svg, $this->avatar->name('RobiNN')->circle()->__toString());
+        $this->assertSame($svg, $this->avatar->name('Róbert Kelčák')->circle()->__toString());
     }
 
     public function testSqareAvatarWithDefinedColors(): void {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">'.
-            '<rect width="48" height="48" fill="#f44336"/>'.
+            '<rect width="48" height="48" fill="#475569"/>'.
             '<text font-size="24" fill="#fff" x="50%" y="50%" dy=".1em" '.
-            'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">R</text></svg>';
+            'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">RK</text></svg>';
 
-        $this->assertSame($svg, $this->avatar->name('RobiNN')->setColors($this->colors)->__toString());
+        $this->assertSame($svg, $this->avatar->name('Róbert RobiNN Kelčák')->setColors($this->colors)->__toString());
     }
 
     public function testCircleAvatarWithDefinedColors(): void {

@@ -57,7 +57,7 @@ $avatar->toBase64();
 
 ## Requirements
 
-- PHP >= 8.1
+- PHP >= 8.2
 - mbstring extension
 
 ## Testing
