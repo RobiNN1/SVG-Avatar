@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace RobiNN\SVGAvatar\Tests;
 
 use PHPUnit\Framework\TestCase;
 use RobiNN\SVGAvatar\SVGAvatar;
@@ -65,6 +65,15 @@ class SVGAvatarTest extends TestCase {
             'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">R</text></svg>';
 
         $this->assertSame($svg, $this->avatar->name('RobiNN')->setColors($this->colors, '#000')->circle()->__toString());
+    }
+
+    public function testAvatarWithUniqueness(): void {
+        $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">'.
+            '<rect width="48" height="48" fill="#3883d0"/>'.
+            '<text font-size="24" fill="#fff" x="50%" y="50%" dy=".1em" '.
+            'style="line-height:1" alignment-baseline="middle" text-anchor="middle" dominant-baseline="central">R</text></svg>';
+
+        $this->assertSame($svg, $this->avatar->name('RobiNN')->uniqueness(7)->__toString());
     }
 
     public function testAvatarWithRadius(): void {

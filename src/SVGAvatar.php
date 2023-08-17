@@ -15,7 +15,7 @@ namespace RobiNN\SVGAvatar;
 use Stringable;
 
 class SVGAvatar implements Stringable {
-    final public const VERSION = '1.2.0';
+    final public const VERSION = '1.2.1';
 
     private string $name = ' ';
 

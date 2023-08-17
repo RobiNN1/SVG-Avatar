@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace Tests;
+namespace RobiNN\SVGAvatar\Tests;
 
 use PHPUnit\Framework\TestCase;
 use RobiNN\SVGAvatar\Colors;

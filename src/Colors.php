@@ -19,13 +19,7 @@ class Colors {
      * @param array<int, string> $colors
      */
     public static function getRandomColor(string $string, array $colors): string {
-        $number = ord($string[0]);
-
-        $i = 1;
-        while ($i < strlen($string)) {
-            $number += ord($string[$i]);
-            $i++;
-        }
+        $number = array_sum(array_map('ord', str_split($string)));
 
         return $colors[$number % count($colors)];
     }
@@ -54,20 +48,19 @@ class Colors {
     }
 
     /**
-     * Get readable text color (black/white) based on background.
+     * Get readable text color (black/white) based on a background.
      */
     public static function getReadableColor(string $hex): string {
         $hex = ltrim($hex, '#');
-
         [$red, $green, $blue] = self::getRgbFromHex($hex);
 
-        $r = hexdec($red) * 299;
-        $g = hexdec($green) * 587;
-        $b = hexdec($blue) * 114;
+        $is_light = (
+                hexdec($red) * 299 +
+                hexdec($green) * 587 +
+                hexdec($blue) * 114
+            ) > 130000;
 
-        $is_light = ($r + $g + $b) / 1000 > 130;
-
-        return '#'.($is_light ? '000' : 'fff');
+        return $is_light ? '#000' : '#fff';
     }
 
     /**
@@ -76,17 +69,14 @@ class Colors {
      * @return array<string>
      */
     public static function getRgbFromHex(string $hex): array {
-        switch (strlen($hex)) {
-            case 3:
-                [$red, $green, $blue] = str_split($hex);
+        if (strlen($hex) === 3) {
+            [$red, $green, $blue] = str_split($hex);
 
-                $red .= $red;
-                $green .= $green;
-                $blue .= $blue;
-                break;
-            case 6:
-            default:
-                [$red, $green, $blue] = str_split($hex, 2);
+            $red .= $red;
+            $green .= $green;
+            $blue .= $blue;
+        } else {
+            [$red, $green, $blue] = str_split($hex, 2);
         }
 
         return [$red, $green, $blue];

@@ -25,7 +25,7 @@
   },
   "require-dev": {
     "phpstan/phpstan": "^1.10",
-    "phpunit/phpunit": "^10.2"
+    "phpunit/phpunit": "^10.3"
   },
   "minimum-stability": "dev",
   "prefer-stable": true,
@@ -36,7 +36,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/"
+      "RobiNN\\SVGAvatar\\Tests\\": "tests/"
     }
   },
   "scripts": {
