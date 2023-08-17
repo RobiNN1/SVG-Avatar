@@ -150,7 +150,7 @@ class SVGAvatar implements Stringable {
      * Generate avatar.
      */
     private function generate(): string {
-        if (count($this->backgrounds) > 0) {
+        if ($this->backgrounds !== []) {
             $background = Colors::getRandomColor($this->name, $this->backgrounds);
             $text_color = $this->text_color === 'auto' ? Colors::getReadableColor($background) : $this->text_color;
         } else {
