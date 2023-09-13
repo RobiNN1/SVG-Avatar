@@ -59,17 +59,3 @@ $avatar->toBase64();
 
 - PHP >= 8.2
 - mbstring extension
-
-## Testing
-
-PHPUnit
-
-```
-composer test
-```
-
-PHPStan
-
-```
-composer phpstan
-```
