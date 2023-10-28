@@ -1,6 +1,6 @@
 <?php
 /**
- * This file is part of the RobiNN\SVG-Avatar package.
+ * This file is part of the RobiNN\SVG-Avatar.
  * Copyright (c) Róbert Kelčák (https://kelcak.com/)
  */
 
