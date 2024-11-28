@@ -24,7 +24,7 @@
     "ext-mbstring": "*"
   },
   "require-dev": {
-    "phpstan/phpstan": "^1.12",
+    "phpstan/phpstan": "^2.0",
     "phpunit/phpunit": "^11.4"
   },
   "minimum-stability": "dev",

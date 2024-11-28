@@ -73,7 +73,7 @@ class SVGAvatar implements Stringable {
     }
 
     /**
-     * Set css class.
+     * Set CSS class.
      */
     public function class(string $class): self {
         $this->class = $class;
