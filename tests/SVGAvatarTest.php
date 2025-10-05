@@ -45,7 +45,7 @@ class SVGAvatarTest extends TestCase {
         $this->assertSame($svg, $this->avatar->name('Róbert Kelčák')->circle()->__toString());
     }
 
-    public function testSqareAvatarWithDefinedColors(): void {
+    public function testSquareAvatarWithDefinedColors(): void {
         $svg = '<svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48">'.
             '<rect width="48" height="48" fill="#475569"/>'.
             '<text font-size="24" fill="#fff" x="50%" y="50%" dy=".1em" '.
